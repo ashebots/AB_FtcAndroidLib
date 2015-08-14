@@ -18,6 +18,15 @@ android {
     }
 }
 
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //FTC APIs
+    compile (name:'RobotCore-release', ext:'aar')
 }
