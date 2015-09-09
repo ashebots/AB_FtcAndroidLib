@@ -24,7 +24,7 @@ public class ChassisOmni extends BaseChassis {
     //axisX drives left or right (-x = left, +x = right)
     //axisY drives backward or forward (-y = backward, +y = forward)
     //rotation is added after other drive calculations, and controls rotation (-rotation = rotate left, +rotation = rotate right)
-    public void Drive(float axisX, float axisY, float rotation)
+    public double Drive(float axisX, float axisY, float rotation)
     {
         axisX = Range.clip(axisX, -1.0f, 1.0f);
         axisY = Range.clip(axisY, -1.0f, 1.0f);
@@ -39,7 +39,9 @@ public class ChassisOmni extends BaseChassis {
 
         this.motorLeft.setPower(leftPower);
         this.motorRight.setPower(rightPower);
-        this.motorLeft.setPower(frontPower);
-        this.motorRight.setPower(backPower);
+        this.motorFront.setPower(frontPower);
+        this.motorBack.setPower(backPower);
+
+        return leftPower; //Debugging. Set back to void
     }
 }
