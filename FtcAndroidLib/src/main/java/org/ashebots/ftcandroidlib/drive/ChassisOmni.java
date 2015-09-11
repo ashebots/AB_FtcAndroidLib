@@ -28,13 +28,14 @@ public class ChassisOmni extends BaseChassis {
     {
         axisX = Range.clip(axisX, -1.0f, 1.0f);
         axisY = Range.clip(axisY, -1.0f, 1.0f);
+        rotation *= -1;
         rotation = Range.clip(rotation, -1.0f, 1.0f);
 
         double maxDrivePower = 1.0f - Math.abs(rotation);
 
         double leftPower = Range.clip(axisY, -maxDrivePower, maxDrivePower) + rotation;
-        double rightPower = Range.clip(axisY, -maxDrivePower, maxDrivePower) + rotation;
-        double frontPower = Range.clip(axisX, -maxDrivePower, maxDrivePower) + rotation;
+        double rightPower = (Range.clip(axisY, -maxDrivePower, maxDrivePower) * -1) + rotation;
+        double frontPower = (Range.clip(axisX, -maxDrivePower, maxDrivePower) * -1) + rotation;
         double backPower = Range.clip(axisX, -maxDrivePower, maxDrivePower) + rotation;
 
         this.motorLeft.setPower(leftPower);
