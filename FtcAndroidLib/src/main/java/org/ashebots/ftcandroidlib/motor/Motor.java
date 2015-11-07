@@ -10,15 +10,21 @@ public class Motor extends DcMotor
     protected float powerMultiplier = 1.0f;
 
     protected int encoderTicksPerRevolution; //1440 for Tetrix, 1120 for AndyMark. I think
-    protected float distancePerRevolution; //If this motor is connected directly a wheel, it would be the wheel's circumference
 
 
     //
     // CONSTRUCTORS
     //
+
+    //Copy an existing DcMotor
+    public Motor(DcMotor existingMotor)
+    {
+        this(existingMotor.getController(), existingMotor.getPortNumber(), existingMotor.getDirection());
+    }
+
     public Motor(DcMotorController controller, int portNumber)
     {
-        super(controller, portNumber);
+        this(controller, portNumber, Direction.FORWARD);
     }
 
     public Motor(DcMotorController controller, int portNumber, DcMotor.Direction direction)
@@ -27,16 +33,11 @@ public class Motor extends DcMotor
     }
 
 
+
     //
     // METHODS
     //
-    public int calculateEncoderTicksForDistance(float distance)
-    {
-        float rotationsToTarget = distance / this.distancePerRevolution;
-        float encoderTicksToTarget = rotationsToTarget * this.encoderTicksPerRevolution;
-        encoderTicksToTarget *= this.gearRatio;
-        return (int) encoderTicksToTarget;
-    }
+
 
 
 
@@ -66,15 +67,5 @@ public class Motor extends DcMotor
     public void setEncoderTicksPerRevolution(int ticks)
     {
         this.encoderTicksPerRevolution = ticks;
-    }
-
-    //distancePerRevolution
-    public float getDistancePerRevolution()
-    {
-        return this.distancePerRevolution;
-    }
-    public void setDistancePerRevolution(float distance)
-    {
-        this.distancePerRevolution = distance;
     }
 }

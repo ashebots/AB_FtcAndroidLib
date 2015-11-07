@@ -24,4 +24,9 @@ public class ChassisArcade extends BaseChassis {
         this.leftMotor.setPower(leftPower);
         this.rightMotor.setPower(rightPower);
     }
+
+    public void DriveForDistance()
+    {
+
+    }
 }
