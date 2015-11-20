@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.ashebots.ftcandroidlib.motor.Motor;
 
-public class MotorWheel extends Motor
+public class MotorWheel extends org.ashebots.ftcandroidlib.motor.Motor
 {
 
     protected float distancePerRevolution; //Typically the wheel's circumference
@@ -30,13 +30,14 @@ public class MotorWheel extends Motor
         return (int) encoderTicksToTarget;
     }
 
+
     public void runForDistance(float distance, float power)
     {
         power = Range.clip(power, -1.0f, 1.0f);
 
         int encoderTicksToTarget = this.getCurrentPosition() + this.calculateEncoderTicksForDistance(distance);
 
-        //this.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        this.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         this.setTargetPosition(encoderTicksToTarget);
         this.setPower(power);
     }

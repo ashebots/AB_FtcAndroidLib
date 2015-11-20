@@ -11,6 +11,9 @@ public class Motor extends DcMotor
 
     protected int encoderTicksPerRevolution; //1440 for Tetrix, 1120 for AndyMark. I think
 
+    //Number of encoder ticks added to actual encoder count. Used to "reset" encoder.
+    protected int currentPositionOffset = 0;
+
 
     //
     // CONSTRUCTORS
@@ -44,6 +47,56 @@ public class Motor extends DcMotor
     //
     // GETTERS / SETTERS
     //
+
+    //OVERRIDDEN
+
+    @Override
+    public int getCurrentPosition()
+    {
+        return this.getCurrentPositionRaw() + this.getCurrentPositionOffset();
+    }
+
+    @Override
+    public void setTargetPosition(int targetPosition)
+    {
+        int newPosition = targetPosition - this.getCurrentPositionOffset();
+
+        super.setTargetPosition(newPosition);
+    }
+
+    @Override
+    public int getTargetPosition()
+    {
+        return super.getTargetPosition() + this.getCurrentPositionOffset();
+    }
+
+
+    //NEW
+
+    //currentPosition
+    public void setCurrentPosition(int newPosition)
+    {
+        int newOffset = -this.getCurrentPositionRaw() + newPosition;
+        this.setCurrentPositionOffset(newOffset);
+    }
+
+    //currentPositionRaw
+    public int getCurrentPositionRaw()
+    {
+        return super.getCurrentPosition();
+    }
+
+    //currentPositionOffset
+    public int getCurrentPositionOffset()
+    {
+        return this.currentPositionOffset;
+    }
+
+    //This shouldn't be used by the user
+    protected void setCurrentPositionOffset(int offset)
+    {
+        this.currentPositionOffset = offset;
+    }
 
     //gearRatio
     public float getGearRatio()
