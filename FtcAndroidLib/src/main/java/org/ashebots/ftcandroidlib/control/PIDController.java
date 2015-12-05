@@ -1,11 +1,15 @@
 package org.ashebots.ftcandroidlib.control;
 
 
+import android.os.SystemClock;
+
 public class PIDController
 {
-    private PIDSettings settings;
+    private PIDSettings settings; //Externally updatable Kp, Ki, & Kd terms
 
-    private double prior_error = 0;
+    private double timeOfLastCalc = 0; //Measured by System.nanoTime();
+
+    private double lastError = 0;
     private double integral = 0;
 
 
@@ -19,17 +23,30 @@ public class PIDController
         this.settings = settings;
     }
 
-    public double Calculate(double currentValue, double targetValue)
+
+    public double calculate(double currentValue, double targetValue)
     {
-        double timeSinceLastCalc = 0; //THIS NEEDS AN ACTUAL VALUE!!
+        double timeSinceLastCalc = SystemClock.uptimeMillis() - timeOfLastCalc;
 
+        //Bulk of PID algorithm:
         double error = targetValue - currentValue;
-        //http://robotsforroboticists.com/pid-control/
+        integral += error * timeSinceLastCalc;
+        double derivative = (error - lastError) / timeSinceLastCalc;
 
-        return 0; //THIS NEEDS AN ACTUAL VALUE !!
+        lastError = error;
+        timeOfLastCalc = SystemClock.uptimeMillis();
+
+        //Add all the parts together & return
+        return error * settings.getProportionalTerm()
+                + integral * settings.getIntegralTerm()
+                + derivative * settings.getDerivativeTerm();
+
+        //Adapted from: http://robotsforroboticists.com/pid-control/
     }
 
 
-
-
+    public PIDSettings getSettings()
+    {
+        return this.settings;
+    }
 }
