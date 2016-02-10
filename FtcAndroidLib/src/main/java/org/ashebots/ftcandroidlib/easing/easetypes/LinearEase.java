@@ -4,7 +4,7 @@ import org.ashebots.ftcandroidlib.easing.EaseType;
 
 
 //Note: all of these are the same.
-public class Linear implements EaseType {
+public class LinearEase implements EaseType {
 
     @Override
     public double easeIn(double currentInput, double startOutput, double endOutput, double endInput) {
