@@ -9,7 +9,7 @@ public class Motor extends DcMotor
     protected float gearRatio = 1.0f;
     protected float powerMultiplier = 1.0f;
 
-    protected int encoderTicksPerRevolution; //1440 for Tetrix, 1120 for AndyMark. I think
+    protected int encoderTicksPerRevolution = 0; //1440 for Tetrix, 1120 for AndyMark NeveRest 40:1, 1680 for AndyMark NeveRest 60:1. I think
 
     //Number of encoder ticks added to actual encoder count. Used to "reset" encoder.
     protected int currentPositionOffset = 0;

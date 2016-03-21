@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 public class ChassisArcade extends BaseChassis {
-    DcMotor leftMotor;
-    DcMotor rightMotor;
+    private DcMotor leftMotor;
+    private DcMotor rightMotor;
 
     public ChassisArcade(DcMotor leftMotor, DcMotor rightMotor)
     {
