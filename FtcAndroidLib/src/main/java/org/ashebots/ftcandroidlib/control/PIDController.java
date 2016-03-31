@@ -7,7 +7,7 @@ public class PIDController
 {
     private PIDSettings settings; //Externally updatable Kp, Ki, & Kd terms
 
-    private double timeOfLastCalc = 0; //Measured by System.nanoTime();
+    private double timeOfLastCalc = 0; //Measured by System.uptimeMillis / 1000 (so, seconds..)
 
     private double lastError = 0;
     private double integral = 0;
@@ -26,15 +26,27 @@ public class PIDController
 
     public double calculate(double currentValue, double targetValue)
     {
-        double timeSinceLastCalc = SystemClock.uptimeMillis() - timeOfLastCalc;
+        //If calculate() hasn't been run in the last half second, make up a new time value for the last
+        //iteration, so that the math doesn't jump around
+        if (getRuntimeSeconds() - timeOfLastCalc > 0.5)
+        {
+            timeOfLastCalc = getRuntimeSeconds() - 0.01; //Set to some made up number, roughly one loop ago
+        }
+
+        double timeSinceLastCalc = getRuntimeSeconds() - timeOfLastCalc;
 
         //Bulk of PID algorithm:
         double error = targetValue - currentValue;
         integral += error * timeSinceLastCalc;
         double derivative = (error - lastError) / timeSinceLastCalc;
 
+        if (Double.isNaN(derivative))
+        {
+            derivative = 0.0;
+        }
+
         lastError = error;
-        timeOfLastCalc = SystemClock.uptimeMillis();
+        timeOfLastCalc = getRuntimeSeconds();
 
         //Add all the parts together & return
         return error * settings.getProportionalTerm()
@@ -44,6 +56,10 @@ public class PIDController
         //Adapted from: http://robotsforroboticists.com/pid-control/
     }
 
+    private double getRuntimeSeconds()
+    {
+        return ((double)SystemClock.uptimeMillis()) / 1000.0;
+    }
 
     public PIDSettings getSettings()
     {
