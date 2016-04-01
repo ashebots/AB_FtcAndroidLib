@@ -3,6 +3,7 @@ package org.ashebots.ftcandroidlib.motor;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.util.Range;
 
 public class Motor extends DcMotor
 {
@@ -49,6 +50,18 @@ public class Motor extends DcMotor
     //
 
     //OVERRIDDEN
+
+    @Override
+    public void setPower(double power)
+    {
+        if (Double.isNaN(power))
+        {
+            power = 0;
+        }
+
+        power = Range.clip(power, -1, 1);
+        super.setPower(power);
+    }
 
     @Override
     public int getCurrentPosition()
