@@ -34,6 +34,9 @@ public abstract class AdvOpMode extends OpMode {
     public Chassis chassis(String lName, String rName) {
         return new Chassis(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName));
     }
+    public ChassisOmni chassisomni(String lName, String rName, String fName, String bName) {
+        return new ChassisOmni(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),hardwareMap.dcMotor.get(fName),hardwareMap.dcMotor.get(bName));
+    }
     //This function automatically calibrates relative sensor values based on the state of a button.
     //It returns true when the part should activate.
     public boolean buttonPressed(HardwareComponent h, String s) {

@@ -36,39 +36,11 @@ public class AdvMotor extends HardwareComponent {
         offset = encOld = motor.getCurrentPosition();
     }
 
-    //Encoder Values
-
-    protected int ticksPer = 0;
-    protected double gearRatio = 0;
-    protected double mod = 1;
-
-    //encoderTicksPerRevolution
-    public int getEncoderTicksPerRevolution()
-    {
-        return ticksPer;
-    }
-    public void setEncoderTicksPerRevolution(int ticks)
-    {
-        ticksPer = ticks;
-    }
-    public void addGearRatio(int inputTeeth, int outputTeeth) {
-        gearRatio = outputTeeth / inputTeeth;
-    }
-
-    public void setMode(String M) {
-        if (M.equals("TICK")) {
-            mod = 1;
-        }
-        if (M.equals("REV")) {
-            mod = ticksPer * gearRatio;
-        }
-    }
-
     public boolean mRange(double min, double max) { //Relative Range (the encoder value tracked while THIS OBJECT is moving the motor)
-        return (Math.abs(enc*mod) < max && Math.abs(enc*mod) > min);
+        return (Math.abs(enc) < max && Math.abs(enc) > min);
     }
     public boolean aRange(double min, double max) { //Absolute Range (the actual encoder value)
-        return (Math.abs((motor.getCurrentPosition()-offset)*mod) < max && Math.abs((motor.getCurrentPosition()-offset)*mod) > min);
+        return (Math.abs((motor.getCurrentPosition()-offset)) < max && Math.abs((motor.getCurrentPosition()-offset)) > min);
     }
 
     //FUNCTIONS - move the object
