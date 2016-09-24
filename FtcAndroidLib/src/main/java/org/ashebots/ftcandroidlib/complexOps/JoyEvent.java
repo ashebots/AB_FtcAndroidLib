@@ -63,8 +63,8 @@ public class JoyEvent {
             }
         }
         //Returns a weighted average of straight and turn dependant on the joystick angle.
-        movement[0] = ((straight[0]*nAngle)*fwdPower + (turn[0]*(1-nAngle))*trnPower)*distance;
-        movement[1] = ((straight[1]*nAngle)*fwdPower + (turn[1]*(1-nAngle))*trnPower)*distance;
+        movement[1] = ((straight[0]*nAngle)*fwdPower + (turn[0]*(1-nAngle))*trnPower)*distance;
+        movement[0] = ((straight[1]*nAngle)*fwdPower + (turn[1]*(1-nAngle))*trnPower)*distance;
         return movement;
     }
     public double[] correctJM(double[] point) {

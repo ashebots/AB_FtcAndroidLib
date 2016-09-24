@@ -28,9 +28,9 @@ public abstract class AutoRoutine extends HardwareComponent {
     //shuts motors off or whatever
     public abstract void stop();
     public abstract boolean states(int step);
-    public abstract void getValues();
+    public void getValues() {}
     public abstract void between();
-    public abstract void calibrate();
+    public  void calibrate() {}
     public int getStep() {
         return state.getStep();
     }
