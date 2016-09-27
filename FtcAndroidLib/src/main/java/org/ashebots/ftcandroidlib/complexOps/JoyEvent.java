@@ -49,10 +49,13 @@ public class JoyEvent {
             turn[1] *= -1.0;
         }
         //Does trigonometry to figure out what percentage of the joystick is straight and what is turn.
-        double angle = Math.asin(y);
+        double angle = Math.asin(y/distance);
+        if (distance == 0) {
+            angle = 0.0;
+        }
         angle /= Math.PI/2;
         angle = Math.abs(angle);
-        double nAngle = (1-maxTurnW)*(angle+maxTurnW);
+        double nAngle = 1-((1-angle)*(1-maxTurnW));
 
         double[] movement = {0.0,0.0};
         if (angle < limit) { //Sharp Turns
