@@ -52,6 +52,7 @@ import java.util.concurrent.locks.Lock;
 
 public class BNO055LIB implements HardwareDevice, I2cController.I2cPortReadyCallback{
 
+
     public static final int BNO055_ADDRESS_A = 0x28;//From Adafruit_BNO055.h
     public static final int BNO055_ADDRESS_B = 0x29;
     public static final int BNO055_ID        = 0xA0;

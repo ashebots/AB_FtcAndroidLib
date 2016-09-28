@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 //AdvOpMode adds a few new functions to the original OpMode.
@@ -20,15 +21,7 @@ public abstract class AdvOpMode extends OpMode {
     }
     //A faster way to generate an IMU Chassis.
     public IMUChassis imuchassis(String lName, String rName, String bName) {
-        BNO055LIB bno = null;
-        try {
-            bno = new BNO055LIB(hardwareMap, bName
-                    , (byte)(BNO055LIB.BNO055_ADDRESS_A * 2)//By convention the FTC SDK always does 8-bit I2C bus
-                    //addressing
-                    , (byte)BNO055LIB.OPERATION_MODE_IMU);
-        } catch (RobotCoreException e){
-            Log.i("FtcRobotController", "Exception: IMU UNREACHABLE, error message: "+e.getMessage() + ", localized: " +e.getLocalizedMessage());
-        }
+        GyroSensor bno = hardwareMap.gyroSensor.get(bName);
         return new IMUChassis(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),bno);
     }
     public Chassis chassis(String lName, String rName) {
