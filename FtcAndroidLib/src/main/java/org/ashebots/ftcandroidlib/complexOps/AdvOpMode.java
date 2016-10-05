@@ -13,21 +13,27 @@ public abstract class AdvOpMode extends OpMode {
     public double INF = Double.MAX_VALUE;
     //A faster way to generate a motor.
     public AdvMotor mtr(String name) {
+        l.logDebug("Motor Initializing");
         return new AdvMotor(hardwareMap.dcMotor.get(name));
     }
     //A faster way to generate a servo.
     public Servo srv(String name) {
+        l.logDebug("Servo Initializing");
         return hardwareMap.servo.get(name);
     }
     //A faster way to generate an IMU Chassis.
     public IMUChassis imuchassis(String lName, String rName, String bName) {
+        l.logDebug("Gyro Initializing");
         GyroSensor bno = hardwareMap.gyroSensor.get(bName);
+        l.logDebug("Motors Initializing");
         return new IMUChassis(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),bno);
     }
     public Chassis chassis(String lName, String rName) {
+        l.logDebug("Motors Initializing");
         return new Chassis(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName));
     }
     public ChassisOmni chassisomni(String lName, String rName, String fName, String bName) {
+        l.logDebug("Motors Initializing");
         return new ChassisOmni(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),hardwareMap.dcMotor.get(fName),hardwareMap.dcMotor.get(bName));
     }
     //This function automatically calibrates relative sensor values based on the state of a button.
@@ -47,6 +53,7 @@ public abstract class AdvOpMode extends OpMode {
         return false;
     }
     public AdvUltrasonic sonic(String name, String legacy, int port) {
+        l.logDebug("U-Sonic Initializing");
         return new AdvUltrasonic(hardwareMap.ultrasonicSensor.get(name),hardwareMap.legacyModule.get(legacy),port);
     }
 }
