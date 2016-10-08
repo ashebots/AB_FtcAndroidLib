@@ -8,11 +8,10 @@ public class JoyEvent {
     double maxTurnW;
     double limit;
     public int joymode = 0;
-    public JoyEvent(double FSpd,double TSpd,double mtw,double l) {
+    public JoyEvent(double FSpd,double TSpd,double mtw) {
         fwdPower = FSpd;
         trnPower = TSpd;
         maxTurnW = mtw;
-        limit = l;
     }
 
     public String parse(double x, double y) {
@@ -25,64 +24,28 @@ public class JoyEvent {
         return a;
     }
     public double[] calc(double x, double y) {
-        //corrects for any rotational glitch in the joystick
-        double[] point = {x,y};
-        double[] rPoint = correctJM(point);
-        x = rPoint[0];
-        y = rPoint[1];
-
-        //Calculates how fast the motors should go.
+        //change turning rad if neccesary
+        x *= maxTurnW;
+        //Calculate the ChassisArcade
+        double l = y - x;
+        double r = y + x;
+        //Calculate distance from center
         double distance = Math.sqrt(x*x+y*y);
         if (Math.abs(distance)>1.0) {
             distance = 1.0;
-        }
-        double[] straight = {1.0,1.0};
-        double[] turn = {1.0,-1.0};
-        if (x<0) { //Determines direction of turn
-            turn[0] *= -1.0;
-            turn[1] *= -1.0;
-        }
-        if (y>0) { //Determines direction of straight line
-            straight[0] *= -1.0;
-            straight[1] *= -1.0;
-            turn[0] *= -1.0;
-            turn[1] *= -1.0;
         }
         //Does trigonometry to figure out what percentage of the joystick is straight and what is turn.
         double angle = Math.asin(y/distance);
         if (distance == 0) {
             angle = 0.0;
         }
+        double angleOrg = angle;
         angle /= Math.PI/2;
         angle = Math.abs(angle);
-        double nAngle = 1-((1-angle)*(1-maxTurnW));
+        //Figures out speed coeficcient
+        double spd = trnPower + angle * (fwdPower - trnPower);
 
-        double[] movement = {0.0,0.0};
-        if (angle < limit) { //Sharp Turns
-            nAngle = maxTurnW;
-            if (y>0) { //Sharp turn is always forward, remove backward additions if possible
-                turn[0] *= -1.0;
-                turn[1] *= -1.0;
-            }
-        }
-        //Returns a weighted average of straight and turn dependant on the joystick angle.
-        movement[1] = ((straight[0]*nAngle)*fwdPower + (turn[0]*(1-nAngle))*trnPower)*distance;
-        movement[0] = ((straight[1]*nAngle)*fwdPower + (turn[1]*(1-nAngle))*trnPower)*distance;
+        double[] movement = {l*spd,r*spd};
         return movement;
-    }
-    public double[] correctJM(double[] point) {
-        if (joymode == 2) { //backwards
-            double[] nPoint = {-point[0],-point[1]};
-            return nPoint;
-        }
-        if (joymode == 1) { //C90 degrees
-            double[] nPoint = {point[1],-point[0]};
-            return nPoint;
-        }
-        if (joymode == 3) { //CC90 degrees
-            double[] nPoint = {-point[1],point[0]};
-            return nPoint;
-        }
-        return point;
     }
 }

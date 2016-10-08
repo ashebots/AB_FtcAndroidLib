@@ -18,6 +18,8 @@ public class Chassis extends HardwareComponent {
     public Chassis(DcMotor l, DcMotor r) {
         motorLeft = l;
         motorRight = r;
+        while (l==null || r==null) {
+        }
         motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLeft.setDirection(DcMotor.Direction.REVERSE);

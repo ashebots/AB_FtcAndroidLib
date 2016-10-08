@@ -16,7 +16,7 @@ public class AdvMotor extends HardwareComponent {
     //sets settings for hardware
     public AdvMotor(DcMotor m) {
         motor = m;
-        motor.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     //SENSORS - control encoder's or sensor's relative (and absolute) positions.
