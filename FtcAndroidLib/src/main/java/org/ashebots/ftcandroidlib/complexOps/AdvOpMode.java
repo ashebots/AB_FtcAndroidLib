@@ -2,6 +2,7 @@ package org.ashebots.ftcandroidlib.complexOps;
 
 import android.util.Log;
 
+import com.qualcomm.hardware.adafruit.AdafruitBNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.exception.RobotCoreException;
 import com.qualcomm.robotcore.hardware.GyroSensor;
@@ -21,7 +22,7 @@ public abstract class AdvOpMode extends OpMode {
     }
     //A faster way to generate an IMU Chassis.
     public IMUChassis imuchassis(String lName, String rName, String bName) {
-        GyroSensor bno = hardwareMap.gyroSensor.get(bName);
+        AdafruitBNO055IMU bno = new AdafruitBNO055IMU(hardwareMap.i2cDeviceSynch.get(bName));
         return new IMUChassis(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),bno);
     }
     public Chassis chassis(String lName, String rName) {

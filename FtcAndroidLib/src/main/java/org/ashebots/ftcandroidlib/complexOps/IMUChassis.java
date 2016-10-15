@@ -1,5 +1,7 @@
 package org.ashebots.ftcandroidlib.complexOps;
 
+import com.qualcomm.hardware.adafruit.*;
+import org.ashebots.ftcandroidlib.complexOps.*;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
 
@@ -7,15 +9,16 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
  * Created by Art Schell on 3/17/2016.
  */
 public class IMUChassis extends Chassis {
+
     //defines hardware
-    public GyroSensor imu;
+    public AdafruitBNO055IMU imu;
     long systemTime;
     //sets settings for hardware
-    public IMUChassis(DcMotor l, DcMotor r, GyroSensor b){
+    public IMUChassis(DcMotor l, DcMotor r, AdafruitBNO055IMU b){
         super(l,r);
         imu = b;
         systemTime = System.nanoTime();
-        imu.calibrate();
+        imu.initialize();
     }
 
     //SENSORS - control encoder's or sensor's relative (and absolute) positions.
@@ -27,19 +30,19 @@ public class IMUChassis extends Chassis {
 
     //values
     public double angle() {
-        return imu.getHeading();
+        return 0;
     }
     public double pitch() {
-        return imu.rawX();
+        return 0;
     }
 
     //BOOLEANS - return if a sensor value is in a range
 
     public boolean ARange(double min, double max) {
-        return (r(imu.getHeading()-aStand) < r(max) && r(imu.getHeading()-aStand) > r(min));
+        return (r(0-aStand) < r(max) && r(0-aStand) > r(min));
     }
     public boolean PRange(double min, double max) {
-        return (imu.rawX() < max && imu.rawX() > min);
+        return (0 < max && 0 > min);
     }
 
     //function used to convert a number into a valid angle.
