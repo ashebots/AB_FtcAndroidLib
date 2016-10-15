@@ -12,17 +12,14 @@ public abstract class AutoRoutine extends HardwareComponent {
     //unused status variable - can be called for telemetry
     String s;
 
-    public boolean run() {
-        //outputs step number
-        s = "Idle";
+    public void run() {
         //action to execute after step switches
         if (state.ifMoved()) {between();}
         //executes the action specified by the step number, as well as checking if it should move to the next step
-        if (states(state.step)) {
+        if (states(getStep())) {
             stop();
             state.state(true,-1);
         }
-        return true;
     }
 
     //shuts motors off or whatever

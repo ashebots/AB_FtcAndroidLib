@@ -45,7 +45,7 @@ public class IMUChassis extends Chassis {
 
     //values
     public double angle() {
-        return AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
+        return -AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle);
     }
     public double roll() {
         return AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.secondAngle);

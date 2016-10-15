@@ -5,7 +5,7 @@ package org.ashebots.ftcandroidlib.complexOps;
  */
 public class Scaler {
     protected int ticksPer = 0;
-    protected double gearRatio = 0;
+    protected double gearRatio = 1;
 
     //encoderTicksPerRevolution
     public int getTicksPer()

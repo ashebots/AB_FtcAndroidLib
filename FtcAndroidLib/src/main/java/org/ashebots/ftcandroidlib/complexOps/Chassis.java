@@ -22,7 +22,7 @@ public class Chassis extends HardwareComponent {
         }
         motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorRight.setDirection(DcMotor.Direction.REVERSE);
     }
 
     //SENSORS - control encoder's or sensor's relative (and absolute) positions.
