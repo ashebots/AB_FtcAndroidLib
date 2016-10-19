@@ -22,13 +22,14 @@ public class JoyEvent {
         if (b&&!old) a = "PRESSED"; //If the joystick is starting to be used
         old = (x!=0.0 || y!=0.0);
         return a;
+
     }
     public double[] calc(double x, double y) {
         //change turning rad if neccesary
         x *= maxTurnW;
         //Calculate the ChassisArcade
-        double l = y - x;
-        double r = y + x;
+        double l = y + x;
+        double r = y - x;
         //Calculate distance from center
         double distance = Math.sqrt(x*x+y*y);
         if (Math.abs(distance)>1.0) {

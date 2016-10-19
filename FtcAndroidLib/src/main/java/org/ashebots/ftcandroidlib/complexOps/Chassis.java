@@ -77,8 +77,8 @@ public class Chassis extends HardwareComponent {
 
     //turns
     public String turnMotors(double x) {
-        motorLeft.setPower(x);
-        motorRight.setPower(-x);
+        motorLeft.setPower(-x);
+        motorRight.setPower(x);
         return "Turning";
     }
     public String moveMotors(double l, double r) {

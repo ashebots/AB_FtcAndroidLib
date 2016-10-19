@@ -22,6 +22,7 @@ public abstract class AutoRoutine extends HardwareComponent {
         }
     }
 
+
     //shuts motors off or whatever
     public abstract void stop();
     public abstract boolean states(int step);
