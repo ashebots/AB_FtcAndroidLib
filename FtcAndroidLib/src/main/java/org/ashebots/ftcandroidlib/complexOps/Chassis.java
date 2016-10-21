@@ -18,8 +18,6 @@ public class Chassis extends HardwareComponent {
     public Chassis(DcMotor l, DcMotor r) {
         motorLeft = l;
         motorRight = r;
-        while (l==null || r==null) {
-        }
         motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRight.setDirection(DcMotor.Direction.REVERSE);
@@ -62,7 +60,7 @@ public class Chassis extends HardwareComponent {
         return ((Math.abs(encoderLeft)+Math.abs(encoderRight))/2 < max && (Math.abs(encoderLeft)+Math.abs(encoderRight))/2 > min);
     }
     public boolean aRange(double min, double max) {
-        double enc = (motorLeft.getCurrentPosition()-+motorRight.getCurrentPosition()+loff+roff)/2;
+        double enc = (motorLeft.getCurrentPosition()+motorRight.getCurrentPosition()-loff-roff)/2;
         return enc < max && enc > min;
     }
 
