@@ -34,7 +34,7 @@ public class ChassisOmni extends Chassis {
         super.calibrate();
     }
 
-    public void getValues() {
+    public void getValues() { //adds the difference in encoders that happened last frame
         encoderFront += motorFront.getCurrentPosition() - encFOld;
         encoderBack += motorBack.getCurrentPosition() - encBOld;
         super.getValues();

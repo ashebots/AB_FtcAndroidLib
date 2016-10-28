@@ -26,6 +26,7 @@ public abstract class AdvOpMode extends OpMode {
         BNO055IMU bno = hardwareMap.get(BNO055IMU.class,bName);
         return new IMUChassis(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),bno);
     }
+    //faster ways to generate teleop chassis (both drive and omni)
     public Chassis chassis(String lName, String rName) {
         return new Chassis(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName));
     }

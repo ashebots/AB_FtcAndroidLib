@@ -20,6 +20,8 @@ public class Chassis extends HardwareComponent {
         motorRight = r;
         motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRight.setDirection(DcMotor.Direction.REVERSE);
     }
 
@@ -79,6 +81,7 @@ public class Chassis extends HardwareComponent {
         motorRight.setPower(x);
         return "Turning";
     }
+    //moves each motor individually
     public String moveMotors(double l, double r) {
         motorLeft.setPower(l);
         motorRight.setPower(r);
