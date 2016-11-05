@@ -34,7 +34,7 @@ public class IMUChassis extends Chassis {
     }
 
     //Calculation of angle units:
-    public void calc() {
+    private void calc() {
         angles   = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
     }
 
@@ -45,12 +45,15 @@ public class IMUChassis extends Chassis {
 
     //values
     public double angle() {
+        calc();
         return -AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle); //heading is negative because the +/- dirs were reversed
     }
     public double roll() {
+        calc();
         return AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.secondAngle);
     }
     public double pitch() {
+        calc();
         return AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.thirdAngle);
     }
 
