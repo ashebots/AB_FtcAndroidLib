@@ -36,6 +36,10 @@ public class AdvMotor extends HardwareComponent {
         offset = encOld = motor.getCurrentPosition();
     }
 
+    public double getEnc() {
+        return motor.getCurrentPosition();
+    }
+
     public boolean mRange(double min, double max) { //Relative Range (the encoder value tracked while THIS OBJECT is moving the motor)
         return (Math.abs(enc) < max && Math.abs(enc) > min);
     }
