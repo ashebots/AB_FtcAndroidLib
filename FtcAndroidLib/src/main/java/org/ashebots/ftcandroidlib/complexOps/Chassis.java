@@ -69,23 +69,20 @@ public class Chassis extends HardwareComponent {
     //FUNCTIONS - move the object
 
     //moves forward or back
-    public String setMotors(double x) {
+    public void setMotors(double x) {
         motorLeft.setPower(x);
         motorRight.setPower(x);
-        return "Moving forward";
     }
 
     //turns
-    public String turnMotors(double x) {
+    public void turnMotors(double x) {
         motorLeft.setPower(-x);
         motorRight.setPower(x);
-        return "Turning";
     }
     //moves each motor individually
-    public String moveMotors(double l, double r) {
+    public void moveMotors(double l, double r) {
         motorLeft.setPower(l);
         motorRight.setPower(r);
-        return "Moving";
     }
     @Override
     public void stop() {
