@@ -1,12 +1,24 @@
 package org.ashebots.ftcandroidlib.complexOps;
 
+import com.qualcomm.hardware.adafruit.BNO055IMU;
+import com.qualcomm.hardware.adafruit.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.Position;
+import org.firstinspires.ftc.robotcore.external.navigation.Velocity;
+
 public class Chassis extends HardwareComponent {
+    //MOTORS
     //defines hardware
     public DcMotor motorRight;
     public DcMotor motorLeft;
+    public BNO055IMU imu;
+    Orientation angles;
     //defines variables
     public double encLOld = 0;
     public double encROld = 0;
@@ -15,7 +27,7 @@ public class Chassis extends HardwareComponent {
     public double loff = 0;
     public double roff = 0;
     //sets settings for hardware
-    public Chassis(DcMotor l, DcMotor r) {
+    public Chassis(DcMotor l, DcMotor r, BNO055IMU i) {
         motorLeft = l;
         motorRight = r;
         motorLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -23,6 +35,22 @@ public class Chassis extends HardwareComponent {
         motorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRight.setDirection(DcMotor.Direction.REVERSE);
+
+        imu = i;
+
+        if (imu != null) {
+            BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+            parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+            parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+            //parameters.calibrationDataFile = "AdafruitIMUCalibration.json";
+            parameters.loggingEnabled = true;
+            parameters.loggingTag = "IMU";
+            parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
+
+            imu.initialize(parameters);
+
+            imu.startAccelerationIntegration(new Position(), new Velocity(), 1000);
+        }
     }
 
     //SENSORS - control encoder's or sensor's relative (and absolute) positions.
@@ -45,9 +73,28 @@ public class Chassis extends HardwareComponent {
         roff = encROld = motorRight.getCurrentPosition();
     }
 
+    //Calculation of angle units:
+    private void calc() {
+        angles   = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
+    }
+
     double aStand;
     public void setStandard(double angle) {
         aStand = angle;
+    }
+
+    //values
+    public double angle() {
+        calc();
+        return -AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.firstAngle); //heading is negative because the +/- dirs were reversed
+    }
+    public double roll() {
+        calc();
+        return AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.secondAngle);
+    }
+    public double pitch() {
+        calc();
+        return AngleUnit.DEGREES.fromUnit(angles.angleUnit, angles.thirdAngle);
     }
 
     //BOOLEANS - return if a sensor value is in a range
@@ -64,6 +111,21 @@ public class Chassis extends HardwareComponent {
     public boolean aRange(double min, double max) {
         double enc = (motorLeft.getCurrentPosition()+motorRight.getCurrentPosition()-loff-roff)/2;
         return enc < max && enc > min;
+    }
+    public boolean ARange(double min, double max) {
+        return (r(angle()-aStand) < r(max) && r(angle()-aStand) > r(min));
+    }
+    public boolean PRange(double min, double max) {
+        return (pitch() < max && pitch() > min);
+    }
+
+    public boolean RRange(double min, double max) {
+        return (roll() < max && roll() > min);
+    }
+
+    //function used to convert a number into a valid angle.
+    public double r(double i) {
+        return ((i+180)%360)-180;
     }
 
     //FUNCTIONS - move the object
@@ -84,6 +146,7 @@ public class Chassis extends HardwareComponent {
         motorLeft.setPower(l);
         motorRight.setPower(r);
     }
+
     @Override
     public void stop() {
         motorLeft.setPower(0);

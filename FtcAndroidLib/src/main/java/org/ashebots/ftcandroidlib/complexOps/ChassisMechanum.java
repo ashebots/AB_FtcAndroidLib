@@ -2,6 +2,7 @@
 
 package org.ashebots.ftcandroidlib.complexOps;
 
+import com.qualcomm.hardware.adafruit.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class ChassisMechanum extends Chassis {
@@ -9,9 +10,9 @@ public class ChassisMechanum extends Chassis {
     DcMotor motorRightB;
     double encoderMechanum;
 
-    public ChassisMechanum(DcMotor motorLeft, DcMotor motorRight, DcMotor motorLeftB, DcMotor motorRightB)
+    public ChassisMechanum(DcMotor motorLeft, DcMotor motorRight, DcMotor motorLeftB, DcMotor motorRightB, BNO055IMU i)
     {
-        super(motorLeft,motorRight);
+        super(motorLeft,motorRight, i);
         this.motorLeftB = motorLeftB;
         this.motorRightB = motorRightB;
         motorRightB.setDirection(DcMotor.Direction.REVERSE);

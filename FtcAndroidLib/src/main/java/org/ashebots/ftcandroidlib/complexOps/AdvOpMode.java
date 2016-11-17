@@ -21,18 +21,32 @@ public abstract class AdvOpMode extends OpMode {
     public Servo srv(String name) {
         return hardwareMap.servo.get(name);
     }
-    //A faster way to generate an IMU Chassis.
-    public IMUChassis imuchassis(String lName, String rName, String bName) {
-        BNO055IMU bno = hardwareMap.get(BNO055IMU.class,bName);
-        return new IMUChassis(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),bno);
-    }
-    //faster ways to generate teleop chassis (both drive and omni)
+
+    //faster ways to generate teleop chassis (drive, omni, mechanum)
     public Chassis chassis(String lName, String rName) {
-        return new Chassis(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName));
+        return new Chassis(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName), null);
     }
+    public Chassis imuchassis(String lName, String rName, String iName) {
+        BNO055IMU bno = hardwareMap.get(BNO055IMU.class,iName);
+        return new Chassis(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),bno);
+    }
+
     public ChassisOmni chassisomni(String lName, String rName, String fName, String bName) {
-        return new ChassisOmni(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),hardwareMap.dcMotor.get(fName),hardwareMap.dcMotor.get(bName));
+        return new ChassisOmni(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),hardwareMap.dcMotor.get(fName),hardwareMap.dcMotor.get(bName),null);
     }
+    public ChassisOmni imuchassisomni(String lName, String rName, String fName, String bName, String iName) {
+        BNO055IMU bno = hardwareMap.get(BNO055IMU.class,iName);
+        return new ChassisOmni(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),hardwareMap.dcMotor.get(fName),hardwareMap.dcMotor.get(bName),bno);
+    }
+    
+    public ChassisMechanum chassismechanum(String lName, String rName, String lbName, String rbName) {
+        return new ChassisMechanum(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),hardwareMap.dcMotor.get(lbName),hardwareMap.dcMotor.get(rbName),null);
+    }
+    public ChassisMechanum imuchassismechanum(String lName, String rName, String lbName, String rbName, String iName) {
+        BNO055IMU bno = hardwareMap.get(BNO055IMU.class,iName);
+        return new ChassisMechanum(hardwareMap.dcMotor.get(lName),hardwareMap.dcMotor.get(rName),hardwareMap.dcMotor.get(lbName),hardwareMap.dcMotor.get(rbName),bno);
+    }
+
     //This function automatically calibrates relative sensor values based on the state of a button.
     //It returns true when the part should activate.
     public boolean buttonPressed(HardwareComponent h, String s) {
