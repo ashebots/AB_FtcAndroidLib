@@ -38,7 +38,7 @@ public class ChassisMechanum extends Chassis {
     //This mode is Mechanum Mode. This will move the robot in a straight line in any direction, without turning.
     //This works by turning the wheels on each side a different amount. Since the mechanum rollers on each wheel
     //are no longer canceled out by each other's movement, they will move the robot diagonally.
-    public void mechanumDrive(double xDist, double yDist) {
+    public void omniDrive(double xDist, double yDist) {
         double leftFPair = 0; //left front, right back
         double rightFPair =0; //right front, left back
         //Y distance moves both pairs of motors forward equally.

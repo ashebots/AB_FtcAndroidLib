@@ -146,6 +146,9 @@ public class Chassis extends HardwareComponent {
         motorLeft.setPower(l);
         motorRight.setPower(r);
     }
+    public void omniDrive(double xDist, double yDist) {
+
+    }
 
     @Override
     public void stop() {
