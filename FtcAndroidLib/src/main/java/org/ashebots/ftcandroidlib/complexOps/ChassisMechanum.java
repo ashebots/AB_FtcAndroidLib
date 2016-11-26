@@ -6,8 +6,8 @@ import com.qualcomm.hardware.adafruit.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class ChassisMechanum extends Chassis {
-    DcMotor motorLeftB;
-    DcMotor motorRightB;
+    public DcMotor motorLeftB;
+    public DcMotor motorRightB;
     double encoderMechanum;
 
     public ChassisMechanum(DcMotor motorLeft, DcMotor motorRight, DcMotor motorLeftB, DcMotor motorRightB, BNO055IMU i)
@@ -39,13 +39,11 @@ public class ChassisMechanum extends Chassis {
     //This works by turning the wheels on each side a different amount. Since the mechanum rollers on each wheel
     //are no longer canceled out by each other's movement, they will move the robot diagonally.
     public void omniDrive(double xDist, double yDist) {
-        double leftFPair = 0; //left front, right back
-        double rightFPair =0; //right front, left back
-        //Y distance moves both pairs of motors forward equally.
-        leftFPair = rightFPair = (Math.sqrt(2)/2)*yDist;
-        //X distance moves the right pair forward and the left pair backward, moving the robot right.
-        leftFPair -= (Math.sqrt(2)/2)*xDist;
-        rightFPair -= (Math.sqrt(2)/2)*xDist;
+        //Arcade Drive
+        double leftFPair = -yDist + xDist; //left front, right back
+        double rightFPair = -yDist - xDist; //right front, left back
+        leftFPair /= Math.sqrt(2); //This is to make sure each value is less than 1. The maximum value you could have is Square Root 2 (as a 45 degree triangle)
+        rightFPair /= Math.sqrt(2);
         motorLeft.setPower(leftFPair);
         motorRightB.setPower(leftFPair);
         motorRight.setPower(rightFPair);

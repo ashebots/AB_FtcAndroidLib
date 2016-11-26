@@ -46,7 +46,8 @@ public class JoyEvent {
         //Figures out speed coeficcient
         double spd = trnPower + angle * (fwdPower - trnPower);
 
-        double[] movement = {l*spd,r*spd};
+        double[] movement = {l*spd/Math.sqrt(2),r*spd/Math.sqrt(2)}; //the Square Root 2 divide is neccesary to trim 45
+        //degree turns on a 1-1-1 joystick. This is because with Arcade these turns end up being Sqrt 2 power to 1 motor, 0 power to another.
         return movement;
     }
 }
