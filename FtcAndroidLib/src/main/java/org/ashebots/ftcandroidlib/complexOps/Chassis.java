@@ -156,4 +156,8 @@ public class Chassis extends HardwareComponent {
         motorRight.setPower(0);
         getValues();
     }
+
+    public double getEncMechanum() {
+        return 0;
+    }
 }

@@ -50,7 +50,10 @@ public class ChassisMechanum extends Chassis {
         motorLeftB.setPower(rightFPair);
     }
 
+    @Override
     public double getEncMechanum() {
+        double encoderLeft = motorLeft.getCurrentPosition() - loff;
+        double encoderRight = motorRight.getCurrentPosition() - roff;
         return Math.sqrt(encoderLeft*encoderLeft+encoderRight*encoderRight); //returns the distance formula for both, since they are at right angles
     }
 }
