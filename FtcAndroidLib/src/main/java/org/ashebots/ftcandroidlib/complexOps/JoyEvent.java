@@ -28,8 +28,8 @@ public class JoyEvent {
         //change turning rad if neccesary
         x *= maxTurnW;
         //Calculate the ChassisArcade
-        double l = -y + x;
-        double r = -y - x;
+        double l = -y - x;
+        double r = -y + x;
         //Calculate distance from center
         double distance = Math.sqrt(x*x+y*y);
         if (Math.abs(distance)>1.0) {
