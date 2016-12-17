@@ -75,7 +75,7 @@ public class Chassis extends HardwareComponent {
 
     //Calculation of angle units:
     private void calc() {
-        angles   = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
+        angles = imu.getAngularOrientation().toAxesReference(AxesReference.INTRINSIC).toAxesOrder(AxesOrder.ZYX);
     }
 
     double aStand;
