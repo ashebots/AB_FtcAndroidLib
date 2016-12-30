@@ -17,4 +17,8 @@ public class Timer extends HardwareComponent {
     public void resetTimer() {
         oldT = System.currentTimeMillis();
     }
+
+    public double time() {
+        return System.currentTimeMillis() - oldT;
+    }
 }
