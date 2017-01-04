@@ -2,6 +2,7 @@ package org.ashebots.ftcandroidlib.complexOps;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 /**
  * Created by Art Schell on 3/17/2016.
@@ -18,7 +19,9 @@ public class AdvMotor extends HardwareComponent {
         motor = m;
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-
+    public void reverse(){
+        motor.setDirection(DcMotorSimple.Direction.REVERSE);
+    }
     //SENSORS - control encoder's or sensor's relative (and absolute) positions.
 
     @Override
