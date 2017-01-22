@@ -4,6 +4,7 @@ import com.qualcomm.hardware.adafruit.BNO055IMU;
 import com.qualcomm.hardware.adafruit.JustLoggingAccelerationIntegrator;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -26,6 +27,11 @@ public class Chassis extends HardwareComponent {
     public double encoderRight = 0;
     public double loff = 0;
     public double roff = 0;
+
+    boolean Drive4 = false;
+    DcMotor motorRightBack;
+    DcMotor motorLeftBack;
+
     //sets settings for hardware
     public Chassis(DcMotor l, DcMotor r, BNO055IMU i) {
         motorLeft = l;
@@ -35,6 +41,8 @@ public class Chassis extends HardwareComponent {
         motorLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorRight.setDirection(DcMotor.Direction.REVERSE);
+        motorLeft.setMaxSpeed(6000);
+        motorRight.setMaxSpeed(6000);
 
         imu = i;
 
@@ -134,30 +142,61 @@ public class Chassis extends HardwareComponent {
     public void setMotors(double x) {
         motorLeft.setPower(x);
         motorRight.setPower(x);
+        if (Drive4) {
+            motorLeftBack.setPower(x);
+            motorRightBack.setPower(x);
+        }
     }
 
     //turns
     public void turnMotors(double x) {
         motorLeft.setPower(-x);
         motorRight.setPower(x);
+        if (Drive4) {
+            motorLeftBack.setPower(-x);
+            motorRightBack.setPower(x);
+        }
     }
+
+    public double targetAngle = -200; //unused
     //moves each motor individually
     public void moveMotors(double l, double r) {
         motorLeft.setPower(l);
         motorRight.setPower(r);
+        if (Drive4) {
+            motorLeftBack.setPower(l);
+            motorRightBack.setPower(r);
+        }
     }
     public void omniDrive(double xDist, double yDist) {
-
+        double angle = Math.asin(xDist)/Math.PI*180;
+        double aDiff = angle() - angle;
+        if (Math.abs(aDiff) < 2.5) {
+            getValues();
+            setMotors(-1);
+            calibrate();
+        } else {
+            if (aDiff<0) { //which angle to turn
+                turnMotors(0.2);
+            } else {
+                turnMotors(-0.2);
+            }
+        }
     }
 
     @Override
     public void stop() {
-        motorLeft.setPower(0);
-        motorRight.setPower(0);
-        getValues();
+        setMotors(0);
     }
 
-    public double getEncMechanum() {
-        return 0;
+    public double getEncMechanum() { //just returns the normal encoder value
+        return (encoderLeft + encoderRight) / 2;
+    }
+
+    public void Add4WheelDrive(Chassis back) {
+        Drive4 = true;
+        motorLeftBack = back.motorLeft;
+        motorRightBack = back.motorRight;
+        motorRightBack.setDirection(DcMotor.Direction.REVERSE);
     }
 }

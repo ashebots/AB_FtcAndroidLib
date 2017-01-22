@@ -35,18 +35,40 @@ public class ChassisMechanum extends Chassis {
         super.moveMotors(l,r);
     }
 
+    double frictionSlowing = 0.35;
+
     //This mode is Mechanum Mode. This will move the robot in a straight line in any direction, without turning.
     //This works by turning the wheels on each side a different amount. Since the mechanum rollers on each wheel
     //are no longer canceled out by each other's movement, they will move the robot diagonally.
     public void omniDrive(double xDist, double yDist) {
+        if (targetAngle != -200) {
+            double aDiff = angle() - targetAngle;
+            if (Math.abs(aDiff) > 0.5) {
+                if (aDiff<0) { //which angle to turn
+                    turnMotors(0.1);
+                } else {
+                    turnMotors(-0.1);
+                }
+                return;
+            }
+        }
         //Arcade Drive
         double leftFPair = -yDist + xDist; //left front, right back
         double rightFPair = -yDist - xDist; //right front, left back
         leftFPair /= Math.sqrt(2); //This is to make sure each value is less than 1. The maximum value you could have is Square Root 2 (as a 45 degree triangle)
         rightFPair /= Math.sqrt(2);
-        motorLeft.setPower(leftFPair);
+        if (leftFPair > frictionSlowing) {
+            motorLeft.setPower(leftFPair - frictionSlowing);
+        } else if (leftFPair < -frictionSlowing) {
+            motorLeft.setPower(leftFPair + frictionSlowing);
+        } else motorLeft.setPower(0);
+        motorLeft.setPower(leftFPair - frictionSlowing);
         motorRightB.setPower(leftFPair);
-        motorRight.setPower(rightFPair);
+        if (rightFPair > frictionSlowing) {
+            motorRight.setPower(rightFPair - frictionSlowing);
+        } else if (rightFPair < -frictionSlowing) {
+            motorRight.setPower(rightFPair + frictionSlowing);
+        } else motorRight.setPower(0);
         motorLeftB.setPower(rightFPair);
     }
 

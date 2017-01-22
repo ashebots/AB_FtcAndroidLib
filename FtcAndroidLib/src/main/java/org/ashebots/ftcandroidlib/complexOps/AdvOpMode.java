@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 //AdvOpMode adds a few new functions to the original OpMode.
 public abstract class AdvOpMode extends OpMode {
+    protected final int encoderConstant = 700;
     public Logger l = new Logger();
     public double INF = Double.MAX_VALUE;
     //A faster way to generate a motor.
