@@ -35,23 +35,34 @@ public class ChassisMechanum extends Chassis {
         super.moveMotors(l,r);
     }
 
+    BoolEvent angleCorrectMode = new BoolEvent();
+
     double frictionSlowing = 0.35;
 
     //This mode is Mechanum Mode. This will move the robot in a straight line in any direction, without turning.
     //This works by turning the wheels on each side a different amount. Since the mechanum rollers on each wheel
-    //are no longer canceled out by each other's movement, they will move the robot diagonally.
+    //are no longer canceled out by each other's movement, they will move the robot sideways.
     public void omniDrive(double xDist, double yDist) {
         if (targetAngle != -200) {
             double aDiff = angle() - targetAngle;
-            if (Math.abs(aDiff) > 0.5) {
+            String state = angleCorrectMode.parse(Math.abs(aDiff) > 2.5);
+            if (state == "RELEASED") {
+                calibrate();
+            }
+            if (state == "UNPRESSED") {
+                getValues();
+                calibrate();
+            }
+            if (Math.abs(aDiff) > 5) {
                 if (aDiff<0) { //which angle to turn
-                    turnMotors(0.1);
+                    turnMotors(Math.abs(aDiff) / 100);
                 } else {
-                    turnMotors(-0.1);
+                    turnMotors(-Math.abs(aDiff) / 100);
                 }
                 return;
             }
         }
+
         //Arcade Drive
         double leftFPair = -yDist + xDist; //left front, right back
         double rightFPair = -yDist - xDist; //right front, left back
@@ -70,12 +81,5 @@ public class ChassisMechanum extends Chassis {
             motorRight.setPower(rightFPair + frictionSlowing);
         } else motorRight.setPower(0);
         motorLeftB.setPower(rightFPair);
-    }
-
-    @Override
-    public double getEncMechanum() {
-        double encoderLeft = motorLeft.getCurrentPosition() - loff;
-        double encoderRight = motorRight.getCurrentPosition() - roff;
-        return Math.sqrt(encoderLeft*encoderLeft+encoderRight*encoderRight); //returns the distance formula for both, since they are at right angles
     }
 }

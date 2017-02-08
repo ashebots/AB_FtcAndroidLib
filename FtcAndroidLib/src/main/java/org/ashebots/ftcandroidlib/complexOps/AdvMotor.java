@@ -60,4 +60,16 @@ public class AdvMotor extends HardwareComponent {
         motor.setPower(0);
         getValues();
     }
+    long lastTime;
+    int lastPos;
+    public double speed() {
+        long time = System.currentTimeMillis() - lastTime;
+        lastTime = System.currentTimeMillis();
+        int pos = motor.getCurrentPosition() - lastPos;
+        lastPos = motor.getCurrentPosition();
+        return pos / time * 1000;
+    }
+    public void setTargetSpeed(int tps) {
+        motor.setMaxSpeed(tps);
+    }
 }
