@@ -62,12 +62,15 @@ public class AdvMotor extends HardwareComponent {
     }
     long lastTime;
     int lastPos;
+    double lastSpeed;
     public double speed() {
         long time = System.currentTimeMillis() - lastTime;
+        if (time < 250) return lastSpeed;
         lastTime = System.currentTimeMillis();
         int pos = motor.getCurrentPosition() - lastPos;
         lastPos = motor.getCurrentPosition();
-        return pos / time * 1000;
+        lastSpeed = pos / time * 1000;
+        return lastSpeed;
     }
     public void setTargetSpeed(int tps) {
         motor.setMaxSpeed(tps);

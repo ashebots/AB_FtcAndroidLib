@@ -30,8 +30,8 @@ public class Chassis extends HardwareComponent {
     public double roff = 0;
 
     boolean Drive4 = false;
-    DcMotor motorRightBack;
-    DcMotor motorLeftBack;
+    public DcMotor motorRightB;
+    public DcMotor motorLeftB;
 
     //sets settings for hardware
     public Chassis(DcMotor l, DcMotor r, BNO055IMU i) {
@@ -144,8 +144,8 @@ public class Chassis extends HardwareComponent {
         motorLeft.setPower(x);
         motorRight.setPower(x);
         if (Drive4) {
-            motorLeftBack.setPower(x);
-            motorRightBack.setPower(x);
+            motorLeftB.setPower(x);
+            motorRightB.setPower(x);
         }
     }
 
@@ -154,8 +154,8 @@ public class Chassis extends HardwareComponent {
         motorLeft.setPower(-x);
         motorRight.setPower(x);
         if (Drive4) {
-            motorLeftBack.setPower(-x);
-            motorRightBack.setPower(x);
+            motorLeftB.setPower(-x);
+            motorRightB.setPower(x);
         }
     }
 
@@ -165,8 +165,8 @@ public class Chassis extends HardwareComponent {
         motorLeft.setPower(l);
         motorRight.setPower(r);
         if (Drive4) {
-            motorLeftBack.setPower(l);
-            motorRightBack.setPower(r);
+            motorLeftB.setPower(l);
+            motorRightB.setPower(r);
         }
     }
     public void omniDrive(double xDist, double yDist) {
@@ -201,8 +201,8 @@ public class Chassis extends HardwareComponent {
 
     public void Add4WheelDrive(Chassis back) {
         Drive4 = true;
-        motorLeftBack = back.motorLeft;
-        motorRightBack = back.motorRight;
-        motorRightBack.setDirection(DcMotor.Direction.REVERSE);
+        motorLeftB = back.motorLeft;
+        motorRightB = back.motorRight;
+        motorRightB.setDirection(DcMotor.Direction.REVERSE);
     }
 }

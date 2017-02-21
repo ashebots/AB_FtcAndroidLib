@@ -15,3 +15,4 @@ public class BoolEvent {
         return a;
     }
 }
+

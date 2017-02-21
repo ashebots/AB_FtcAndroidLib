@@ -6,8 +6,6 @@ import com.qualcomm.hardware.adafruit.BNO055IMU;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 public class ChassisMechanum extends Chassis {
-    public DcMotor motorLeftB;
-    public DcMotor motorRightB;
     double encoderMechanum;
 
     public ChassisMechanum(DcMotor motorLeft, DcMotor motorRight, DcMotor motorLeftB, DcMotor motorRightB, BNO055IMU i)
