@@ -71,7 +71,6 @@ public class ChassisMechanum extends Chassis {
         } else if (leftFPair < -frictionSlowing) {
             motorLeft.setPower(leftFPair + frictionSlowing);
         } else motorLeft.setPower(0);
-        motorLeft.setPower(leftFPair - frictionSlowing);
         motorRightB.setPower(leftFPair);
         if (rightFPair > frictionSlowing) {
             motorRight.setPower(rightFPair - frictionSlowing);
