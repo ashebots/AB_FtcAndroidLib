@@ -74,4 +74,7 @@ public class AdvMotor extends HardwareComponent {
     public void setTargetSpeed(int tps) {
         motor.setMaxSpeed(tps);
     }
+    public void disablePID() {
+        motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
 }
