@@ -79,4 +79,9 @@ public class ChassisMechanum extends Chassis {
         } else motorRight.setPower(0);
         motorLeftB.setPower(rightFPair);
     }
+
+    @Override
+    public double getEncMechanum() {
+        return Math.sqrt(Math.pow(motorLeft.getCurrentPosition()-loff,2)+Math.pow(motorRight.getCurrentPosition()-roff,2));
+    }
 }
